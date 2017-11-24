@@ -1,5 +1,8 @@
 require "bundler/setup"
-require "loggery/gem"
+require_relative "support/test_rails_app"
+
+require "loggery"
+
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

@@ -1,38 +1,76 @@
-# Loggery::Gem
+# Loggery Gem
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/loggery/gem`. To experiment with that code, run `bin/console` for an interactive prompt.
+Make your Rails app produce [Logstash](https://www.elastic.co/products/logstash) compatible log
+files that can be used for structured, centralized logging in
+[Kibana](https://www.elastic.co/products/kibana).
 
-TODO: Delete this and the text above, and describe your gem
+This is a convenience gem that heavily builds on previous work by
+[Lograge](https://github.com/roidrage/lograge) by
+[roidrage](https://github.com/dwbutler/logstash-logger) and
+[logstash-logger](https://github.com/dwbutler/logstash-logger) by
+[dwbutler](https://github.com/dwbutler). it mainly connects these gems and sets some useful
+defaults.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'loggery-gem'
+gem 'loggery'
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
+### Basic Rails integration
+```ruby
+config.loggery.enabled = true
+```
 
-    $ gem install loggery-gem
+to your `config/application.rb`.
+
+### Add user metadata to logs
+
+If you would like to enrich your log records with information about the active user, add this to
+your `ApplicationController`:
+
+```ruby
+include Loggery::Controller::LoggingContext
+log_context do
+  { 
+    user_id: current_user.try(:id), 
+    user_email: current_user.try(:email)
+  }
+end
+```
+
+The above example assumes you are using devise and your would like to log the `id` and `email` of
+your user. You can adapt this block to include whichever information you would like to add to your
+log records.
+
+### Sidekiq
+
+If you're using Sidekiq you can enable structured logging in sidekiq by adding these lines to 
+`config/initializers/sidekiq.rb`:
+
+```ruby
+Sidekiq.configure_server do |config|
+  Loggery.setup_sidekiq!(config)
+end
+
+Sidekiq::Logging.logger = Rails.logger
+```
+
+This will make sure that useful metadata like the sidekiq job id, the thread id, the worker type,
+its arguments, the retry count, job runtime, ...
 
 ## Usage
 
-TODO: Write usage instructions here
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/stemps/loggery-gem. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/liefery/loggery-gem. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
