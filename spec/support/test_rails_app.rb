@@ -2,14 +2,6 @@
 
 # a minimal rails app for specs
 
-require 'rails/all'
-require 'lograge'
-require 'lograge/railtie'
-require 'logstash-event'
-require 'logstash-logger'
-require 'loggery'
-require 'loggery/railtie'
-
 class TestRailsApp < Rails::Application
   config.root = File.expand_path('../..', __FILE__)
 

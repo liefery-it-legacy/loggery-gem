@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
+require 'rails/all'
+require 'loggery'
+require 'loggery/railtie'
 require_relative 'support/test_rails_app'
 require 'pry'
-
-require 'loggery'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
