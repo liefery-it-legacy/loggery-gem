@@ -7,7 +7,7 @@ module Loggery
       extend ActiveSupport::Concern
 
       included do
-        before_action :set_logging_metadata
+        before_action :loggery_set_metadata
       end
 
       class_methods do
@@ -16,13 +16,18 @@ module Loggery
         end
       end
 
-      def set_logging_metadata
+      def loggery_set_metadata
         return unless Loggery::Metadata::Store.store
+        metadata = loggery_default_metadata.merge loggery_custom_metadata
+        Loggery::Metadata::Store.store.merge!(metadata)
+      end
 
-        log_options = { }
-        log_options.merge! instance_eval(&@@loggery_log_context_block) if @@loggery_log_context_block
+      def loggery_default_metadata
+        {}
+      end
 
-        Loggery::Metadata::Store.store.merge!(log_options)
+      def loggery_custom_metadata
+       @@loggery_log_context_block ? instance_eval(&@@loggery_log_context_block) : {}
       end
     end
   end

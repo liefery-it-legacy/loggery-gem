@@ -25,6 +25,15 @@ module Loggery
     end
   end
 
+  module LoggerySetup
+    def self.setup!(app)
+      LogstashSetup.setup!(app.config)
+      LogrageSetup.setup!(app.config)
+
+      app.config.middleware.insert_before Rails::Rack::Logger, Loggery::Metadata::Middleware::Rack
+    end
+  end
+
   class Railtie < Rails::Railtie
     config.loggery = OpenStruct.new
 
@@ -34,10 +43,7 @@ module Loggery
 
     initializer :loggery, before: :initialize_logger do |app|
       if app.config.loggery.enabled
-        LogstashSetup.setup!(app.config)
-        LogrageSetup.setup!(app.config)
-
-        app.config.middleware.insert_after Warden::Manager, Loggery::Metadata::Middleware::Rack
+        LoggerySetup.setup!(app)
       end
     end
   end

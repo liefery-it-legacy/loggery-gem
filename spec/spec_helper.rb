@@ -1,5 +1,6 @@
 require "bundler/setup"
 require_relative "support/test_rails_app"
+require 'pry'
 
 require "loggery"
 
