@@ -28,7 +28,30 @@ And then execute:
 config.loggery.enabled = true
 ```
 
-to your `config/application.rb`.
+to your `config/application.rb`. In this basic setup, Loggery will save your log output to
+`log/logstash-<rails-env>.log` in JSON format. It will also:
+* use [lograge](https://github.com/roidrage/lograge) to create a single-line log entry for every
+  Rails request including the db / view / total duration, controller name, action, http status, etc...
+* add the process PID to every log line
+* add the request ID to every HTTP request, to easily follow the log trace of any single request.
+
+### Custom logging
+
+In addition to logging strings like any normal Rails app
+
+```ruby
+Rails.logger.info "OMG something just happened!"
+```
+
+You can now also log hashes with additional information:
+
+```ruby
+Rails.logger.info message: "OMG something just happened!", reason: "Foo servive not available", context:
+some_hash.inspect
+```
+
+This allows you to give your logs more context about the thing you were trying to do, the state of
+input variables, etc...
 
 ### Add user metadata to logs
 
@@ -46,8 +69,8 @@ end
 ```
 
 The above example assumes you are using devise and your would like to log the `id` and `email` of
-your user. You can adapt this block to include whichever information you would like to add to your
-log records.
+your user. You can adapt this block to include whichever additional information from your
+controllers you would like to add to your log records.
 
 ### Sidekiq
 
@@ -58,10 +81,15 @@ If you're using Sidekiq you can enable structured logging in sidekiq by adding t
 Loggery.setup_sidekiq!(config)
 ```
 
-This will make sure that useful metadata like the sidekiq job id, the thread id, the worker type,
-its arguments, the retry count, job runtime, ...
-
-## Usage
+This will make sure that useful sidekiq-metadata is added to your log lines to make tracing job
+executions easier. The added info is:
+* sidekiq job-id
+* sidekiq queue
+* thread-id
+* worker name
+* worker arguments
+* retry count
+* process PID
 
 
 ## Contributing

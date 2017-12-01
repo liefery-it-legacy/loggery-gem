@@ -1,3 +1,6 @@
+# Hooks into LogStashLogger and adds the logging metadata that has been collected to the actual
+# Logstash event
+
 # frozen_string_literal: true
 
 module Loggery

@@ -1,4 +1,7 @@
+# Sidekiq middleware that adds basic sidekiq metadata to all log lines.
+
 # frozen_string_literal: true
+
 module Loggery
   module Metadata
     module Middleware
@@ -23,6 +26,8 @@ module Loggery
               begin
                 yield
               rescue => e
+                # Log exceptions here, otherwise they won't have the metadata available anymore by
+                # the time they reach the Sidekiq default error handler.
                 @@error_handler.call(e) if @@error_handler
                 raise e
               end

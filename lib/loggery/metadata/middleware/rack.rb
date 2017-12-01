@@ -1,4 +1,7 @@
+# Rack middleware that adds basic request metadata to all log lines.
+
 # frozen_string_literal: true
+
 module Loggery
   module Metadata
     module Middleware
@@ -8,7 +11,8 @@ module Loggery
         end
 
         def call(env)
-          Loggery::Metadata::Store.with_metadata(request_id: env["action_dispatch.request_id"]) do
+          Loggery::Metadata::Store.with_metadata(worker_type: "web",
+                                                 request_id: env["action_dispatch.request_id"]) do
             @app.call(env)
           end
         end
