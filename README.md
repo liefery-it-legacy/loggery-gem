@@ -55,11 +55,7 @@ If you're using Sidekiq you can enable structured logging in sidekiq by adding t
 `config/initializers/sidekiq.rb`:
 
 ```ruby
-Sidekiq.configure_server do |config|
-  Loggery.setup_sidekiq!(config)
-end
-
-Sidekiq::Logging.logger = Rails.logger
+Loggery.setup_sidekiq!(config)
 ```
 
 This will make sure that useful metadata like the sidekiq job id, the thread id, the worker type,
