@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 module Loggery
   module LogstashSetup
     def self.setup!(config)
       config.logstash.type = :file
       config.logstash.path = config.loggery.log_file
 
-      LogStashLogger.configure do |config|
-        config.customize_event do |event|
-          Loggery::Metadata::LogstashEventUtil.set_event_metadata(event)
+      LogStashLogger.configure do |logstash|
+        logstash.customize_event do |event|
+          Loggery::Metadata::LogstashEventUtil.event_metadata(event)
         end
       end
     end
@@ -42,9 +44,7 @@ module Loggery
     config.loggery.log_file = "log/logstash-#{Rails.env}.log"
 
     initializer :loggery, before: :initialize_logger do |app|
-      if app.config.loggery.enabled
-        LoggerySetup.setup!(app)
-      end
+      LoggerySetup.setup!(app) if app.config.loggery.enabled
     end
   end
 end

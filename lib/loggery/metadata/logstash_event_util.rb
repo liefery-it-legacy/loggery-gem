@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Hooks into LogStashLogger and adds the logging metadata that has been collected to the actual
 # Logstash event
 
@@ -8,14 +9,14 @@ module Loggery
     module LogstashEventUtil
       MAGIC_FIELDS = [:type].freeze
 
-      def self.set_event_metadata(event)
+      def self.event_metadata(event)
         return unless loglevel_includes_event?(event)
         stored_metadata = Loggery::Metadata::Store.store || {}
         metadata = default_metadata.merge(stored_metadata)
-        _set_event_metadata(event, metadata)
+        _event_metadata(event, metadata)
       end
 
-      def self._set_event_metadata(event, metadata)
+      def self._event_metadata(event, metadata)
         metadata.each { |k, v| event[k] = v }
         warn_if_magic_fields_are_used(event)
       end
@@ -25,7 +26,7 @@ module Loggery
       end
 
       def self.loglevel_includes_event?(event)
-        severity = event["severity"].downcase
+        severity = event['severity'].downcase
         Rails.logger.respond_to?(severity) && Rails.logger.send("#{severity}?")
       end
 

@@ -5,7 +5,7 @@ require 'spec_helper'
 module Loggery
   module Controller
     describe LoggingContext do
-      describe "when included" do
+      describe 'when included' do
         class Spy
           cattr_accessor :before_action_set
 
@@ -19,13 +19,13 @@ module Loggery
 
         before { Loggery::Metadata::Store.init_store }
 
-        it "registers a before_action" do
+        it 'registers a before_action' do
           expect(Spy.before_action_set).to be_truthy
         end
 
-        it "accepts custom log context" do
+        it 'accepts custom log context' do
           Spy.new.loggery_set_metadata
-          expect(Loggery::Metadata::Store.store).to include({ foo: :bar })
+          expect(Loggery::Metadata::Store.store).to include(foo: :bar)
         end
       end
     end

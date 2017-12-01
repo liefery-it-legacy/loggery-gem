@@ -1,3 +1,5 @@
+# Logs an exception and a sidekiq context hash in logstash copatible form
+
 # frozen_string_literal: true
 
 class SidekiqExceptionLogger
