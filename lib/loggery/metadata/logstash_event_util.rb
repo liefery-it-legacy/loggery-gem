@@ -19,7 +19,7 @@ module Loggery
 
       def set_logstash_event_metadata(event, metadata)
         metadata.each { |k, v| event[k] = v }
-        warn_if_magic_fields_are_used(event)
+        fail_if_magic_fields_are_used(event)
       end
 
       def default_metadata
@@ -31,7 +31,7 @@ module Loggery
         Rails.logger.respond_to?(severity) && Rails.logger.public_send("#{severity}?")
       end
 
-      def warn_if_magic_fields_are_used(event)
+      def fail_if_magic_fields_are_used(event)
         MAGIC_FIELDS.each do |magic_field|
           if event[magic_field.to_s].present? || event[magic_field.to_sym].present?
             raise "'#{magic_field}' is a reserved field name of logstash. It should not be set in a custom event"
