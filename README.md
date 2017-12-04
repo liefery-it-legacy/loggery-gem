@@ -8,7 +8,7 @@ This is a convenience gem that heavily builds on previous work by
 [Lograge](https://github.com/roidrage/lograge) by
 [roidrage](https://github.com/dwbutler/logstash-logger) and
 [logstash-logger](https://github.com/dwbutler/logstash-logger) by
-[dwbutler](https://github.com/dwbutler). it mainly connects these gems and sets some useful
+[dwbutler](https://github.com/dwbutler). It mainly connects these gems and sets some useful
 defaults.
 
 ## Installation
@@ -68,7 +68,7 @@ log_context do
 end
 ```
 
-The above example assumes you are using devise and your would like to log the `id` and `email` of
+The above example assumes you are using Devise and your would like to log the `id` and `email` of
 your user. You can adapt this block to include whichever additional information from your
 controllers you would like to add to your log records.
 

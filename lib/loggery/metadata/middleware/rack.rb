@@ -1,6 +1,6 @@
-# Rack middleware that adds basic request metadata to all log lines.
-
 # frozen_string_literal: true
+
+# Rack middleware that adds basic request metadata to all log lines.
 
 module Loggery
   module Metadata

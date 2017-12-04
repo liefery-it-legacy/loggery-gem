@@ -1,6 +1,6 @@
-# Logs an exception and a sidekiq context hash in logstash copatible form
-
 # frozen_string_literal: true
+
+# Logs an exception and a sidekiq context hash in logstash compatible form
 
 class SidekiqExceptionLogger
   def call(ex, ctx_hash)

@@ -1,6 +1,6 @@
-# Sidekiq middleware that adds basic sidekiq metadata to all log lines.
-
 # frozen_string_literal: true
+
+# Sidekiq middleware that adds basic sidekiq metadata to all log lines.
 
 module Loggery
   module Metadata
