@@ -9,7 +9,9 @@ module Loggery
         include Loggery::Util
 
         # Clients can provide their own error handler
-        cattr_accessor(:error_handler) { ->(e) { Sidekiq::Logging.logger.error(e) } }
+        class << self
+          attr_accessor(:error_handler) { ->(e) { Sidekiq::Logging.logger.error(e) } }
+        end
 
         def call(_worker, msg, queue)
           Loggery::Metadata::Store.with_metadata(jid:         msg["jid"],
@@ -25,7 +27,7 @@ module Loggery
               rescue StandardError => e
                 # Log exceptions here, otherwise they won't have the metadata available anymore by
                 # the time they reach the Sidekiq default error handler.
-                @@error_handler&.call(e)
+                self.class.error_handler&.call(e)
                 raise e
               end
             end

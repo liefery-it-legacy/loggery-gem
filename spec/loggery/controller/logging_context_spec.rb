@@ -6,11 +6,13 @@ module Loggery
   module Controller
     describe LoggingContext do
       describe "when included" do
-        class Spy
-          cattr_accessor :before_action_set
+        class self::Spy
+          class << self
+            cattr_accessor :before_action_set
 
-          def self.before_action(action_name)
-            Spy.before_action_set = true if action_name == :loggery_set_metadata
+            def before_action(action_name)
+              self.before_action_set = true if action_name == :loggery_set_metadata
+            end
           end
 
           include LoggingContext
@@ -22,11 +24,11 @@ module Loggery
         before { Loggery::Metadata::Store.init_store }
 
         it "registers a before_action" do
-          expect(Spy.before_action_set).to be_truthy
+          expect(self.class::Spy.before_action_set).to be_truthy
         end
 
         it "accepts custom log context" do
-          Spy.new.loggery_set_metadata
+          self.class::Spy.new.loggery_set_metadata
           expect(Loggery::Metadata::Store.store).to include(foo: :bar)
         end
       end
