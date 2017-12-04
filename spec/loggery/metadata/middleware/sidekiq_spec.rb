@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Loggery::Metadata::Middleware::Sidekiq, with_logs: true do
+describe Loggery::Metadata::Middleware::Sidekiq do
   let(:msg) { { 'class' => 'MyWorker', 'args' => { foo: :bar } } }
 
   describe '#call' do

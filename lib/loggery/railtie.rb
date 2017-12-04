@@ -2,7 +2,7 @@
 
 module Loggery
   module LogstashSetup
-    def self.setup!(config)
+    def self.setup(config)
       config.logstash.type = :file
       config.logstash.path = config.loggery.log_file
 
@@ -15,7 +15,7 @@ module Loggery
   end
 
   module LogrageSetup
-    def self.setup!(config)
+    def self.setup(config)
       config.lograge.enabled                 = true
       config.lograge.keep_original_rails_log = false
       config.lograge.logger                  = Rails.logger
@@ -28,9 +28,9 @@ module Loggery
   end
 
   module LoggerySetup
-    def self.setup!(app)
-      LogstashSetup.setup!(app.config)
-      LogrageSetup.setup!(app.config)
+    def self.setup(app)
+      LogstashSetup.setup(app.config)
+      LogrageSetup.setup(app.config)
 
       app.config.middleware.insert_before Rails::Rack::Logger, Loggery::Metadata::Middleware::Rack
     end
@@ -44,7 +44,7 @@ module Loggery
     config.loggery.log_file = "log/logstash-#{Rails.env}.log"
 
     initializer :loggery, before: :initialize_logger do |app|
-      LoggerySetup.setup!(app) if app.config.loggery.enabled
+      LoggerySetup.setup(app) if app.config.loggery.enabled
     end
   end
 end

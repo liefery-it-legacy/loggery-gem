@@ -12,10 +12,10 @@ module Loggery
         return unless loglevel_includes_event?(event)
         stored_metadata = Loggery::Metadata::Store.store || {}
         metadata = default_metadata.merge(stored_metadata)
-        _event_metadata(event, metadata)
+        set_logstash_event_metadata(event, metadata)
       end
 
-      def self._event_metadata(event, metadata)
+      def self.set_logstash_event_metadata(event, metadata)
         metadata.each { |k, v| event[k] = v }
         warn_if_magic_fields_are_used(event)
       end

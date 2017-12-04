@@ -5,7 +5,7 @@
 class TestRailsApp < Rails::Application
   config.root = File.expand_path('../..', __FILE__)
 
-  Loggery::LoggerySetup.setup!(self)
+  Loggery::LoggerySetup.setup(self)
   config.loggery.enabled = true
 
   config.cache_classes = true

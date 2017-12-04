@@ -11,7 +11,8 @@ module Loggery
         # Clients can provide their own error handler
         cattr_accessor(:error_handler) { ->(e) { Sidekiq::Logging.logger.error(e) } }
 
-        def initialize(options = nil); end
+        def initialize(options = nil)
+        end
 
         def call(_worker, msg, queue)
           Loggery::Metadata::Store.with_metadata(jid:         msg['jid'],

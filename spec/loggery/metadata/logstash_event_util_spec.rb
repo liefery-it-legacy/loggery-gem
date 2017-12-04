@@ -12,7 +12,7 @@ describe Loggery::Metadata::LogstashEventUtil do
       context "reserved field #{magic_field}" do
         it 'raises an exception' do
           expect do
-            subject._event_metadata(event, magic_field => :foo)
+            subject.set_logstash_event_metadata(event, magic_field => :foo)
           end.to raise_error(/'type' is a reserved field name/)
         end
       end

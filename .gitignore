@@ -10,5 +10,7 @@
 
 log
 
+.ruby-version
+
 # rspec failure tracking
 .rspec_status

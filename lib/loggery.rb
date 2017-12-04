@@ -16,7 +16,7 @@ require 'logstash-event'
 require 'logstash-logger'
 
 module Loggery
-  def self.setup_sidekiq!
-    Loggery::Sidekiq::Setup.setup!
+  def self.setup_sidekiq
+    Loggery::Sidekiq::Setup.setup
   end
 end

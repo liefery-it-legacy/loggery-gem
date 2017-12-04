@@ -3,7 +3,7 @@
 module Loggery
   module Sidekiq
     module Setup
-      def self.setup!
+      def self.setup
         ::Sidekiq::Logging.logger = Rails.logger
 
         ::Sidekiq.configure_server do |config|

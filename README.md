@@ -78,7 +78,7 @@ If you're using Sidekiq you can enable structured logging in sidekiq by adding t
 `config/initializers/sidekiq.rb`:
 
 ```ruby
-Loggery.setup_sidekiq!(config)
+Loggery.setup_sidekiq(config)
 ```
 
 This will make sure that useful sidekiq-metadata is added to your log lines to make tracing job
