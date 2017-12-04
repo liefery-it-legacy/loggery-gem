@@ -3,7 +3,7 @@
 # a minimal rails app for specs
 
 class TestRailsApp < Rails::Application
-  config.root = File.expand_path('../..', __FILE__)
+  config.root = File.expand_path("../..", __FILE__)
 
   Loggery::LoggerySetup.setup(self)
   config.loggery.enabled = true
@@ -12,7 +12,7 @@ class TestRailsApp < Rails::Application
   config.eager_load = false
 end
 
-ENV['RAILS_ENV'] = 'test'
-ENV['DATABASE_URL'] = 'sqlite3://localhost/:memory:'
+ENV["RAILS_ENV"] = "test"
+ENV["DATABASE_URL"] = "sqlite3://localhost/:memory:"
 
 TestRailsApp.initialize!

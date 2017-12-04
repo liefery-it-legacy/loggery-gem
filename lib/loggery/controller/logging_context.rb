@@ -12,27 +12,19 @@ module Loggery
         before_action :loggery_set_metadata
       end
 
-      class_methods do
-        cattr_accessor :loggery_log_context_block
-
-        def log_context(&block)
-          self.loggery_log_context_block = block
-        end
+      # to be overridden in including class
+      def loggery_log_context
+        {}
       end
 
       def loggery_set_metadata
         return unless Loggery::Metadata::Store.store
-        metadata = loggery_default_metadata.merge loggery_custom_metadata
+        metadata = loggery_default_metadata.merge loggery_log_context
         Loggery::Metadata::Store.store.merge!(metadata)
       end
 
       def loggery_default_metadata
         {}
-      end
-
-      def loggery_custom_metadata
-        loggery_log_context_block = self.class.loggery_log_context_block
-        loggery_log_context_block ? instance_eval(&loggery_log_context_block) : {}
       end
     end
   end

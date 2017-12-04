@@ -60,17 +60,18 @@ your `ApplicationController`:
 
 ```ruby
 include Loggery::Controller::LoggingContext
-log_context do
+
+def loggery_log_context
   { 
-    user_id: current_user.try(:id), 
-    user_email: current_user.try(:email)
+    user_id: current_user&.id, 
+    user_email: current_user&.email
   }
 end
 ```
 
-The above example assumes you are using Devise and your would like to log the `id` and `email` of
-your user. You can adapt this block to include whichever additional information from your
-controllers you would like to add to your log records.
+The above example assumes you would like to log the `id` and `email` of your user. You can provide a
+method `loggery_log_context` to include whichever additional information from your controllers you
+would like to add to your log records.
 
 ### Sidekiq
 

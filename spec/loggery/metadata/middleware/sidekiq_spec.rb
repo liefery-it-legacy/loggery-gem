@@ -1,46 +1,46 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 describe Loggery::Metadata::Middleware::Sidekiq do
-  let(:msg) { { 'class' => 'MyWorker', 'args' => { foo: :bar } } }
+  let(:msg) { { "class" => "MyWorker", "args" => { foo: :bar } } }
 
-  describe '#call' do
-    it 'stores data relevant for logging in RequestStore and makes it available within the block' do
-      subject.call(nil, msg, 'critical') do
+  describe "#call" do
+    it "stores data relevant for logging in RequestStore and makes it available within the block" do
+      subject.call(nil, msg, "critical") do
         expect(Loggery::Metadata::Store.store).to include(
           jid: anything,
           thread_id: anything,
-          worker: 'MyWorker',
-          args: '{:foo=>:bar}',
-          queue: 'critical',
+          worker: "MyWorker",
+          args: "{:foo=>:bar}",
+          queue: "critical",
           retry_count: anything,
-          worker_type: 'sidekiq'
+          worker_type: "sidekiq"
         )
       end
     end
 
-    it 'logs the duration of the sidekiq request' do
+    it "logs the duration of the sidekiq request" do
       expect(Rails.logger).to receive(:info)
         .with(event_type: :sidekiq_job_started,
-              message: 'Job type sidekiq_job - MyWorker ({:foo=>:bar}) started')
+              message: "Job type sidekiq_job - MyWorker ({:foo=>:bar}) started")
         .and_call_original
       expect(Rails.logger).to receive(:info)
         .with(event_type: :sidekiq_job_finished,
-              message: 'Job type sidekiq_job - MyWorker ({:foo=>:bar}) finished',
+              message: "Job type sidekiq_job - MyWorker ({:foo=>:bar}) finished",
               duration: anything)
         .and_call_original
-      subject.call(nil, msg, 'critical') {}
+      subject.call(nil, msg, "critical") {}
     end
 
-    context 'when the block raises an exception' do
+    context "when the block raises an exception" do
       around(:each) do |example|
-        Loggery::Metadata::Middleware::Sidekiq.error_handler = ->(_e) { Rails.logger.error('test') }
+        Loggery::Metadata::Middleware::Sidekiq.error_handler = ->(_e) { Rails.logger.error("test") }
         example.run
         Loggery::Metadata::Middleware::Sidekiq.error_handler = nil
       end
 
-      it 'logs and re-raises the exception with correct metadata' do
+      it "logs and re-raises the exception with correct metadata" do
         allow(Rails.logger).to receive(:info)
           .with(event_type: :sidekiq_job_started, message: anything)
           .and_call_original
@@ -61,8 +61,8 @@ describe Loggery::Metadata::Middleware::Sidekiq do
         }.at_least(3).times
 
         expect do
-          subject.call(nil, msg, 'critical') { raise 'boom!' }
-        end.to raise_error 'boom!'
+          subject.call(nil, msg, "critical") { raise "boom!" }
+        end.to raise_error "boom!"
       end
     end
   end
