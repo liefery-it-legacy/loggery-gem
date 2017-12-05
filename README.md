@@ -47,11 +47,28 @@ You can now also log hashes with additional information:
 
 ```ruby
 Rails.logger.info message: "OMG something just happened!", reason: "Foo servive not available", context:
-some_hash.inspect
+some_hash.inspect, attempt: attempt_counter, time_taken: your_time_measurement
 ```
 
 This allows you to give your logs more context about the thing you were trying to do, the state of
 input variables, etc...
+
+The following context attribute names should be avoided, because they are used by other tools in the
+chain. Using those will result in an exception to make sure you notice during development and
+testing:
+* type
+* uid
+* _id
+* _type
+* _source
+* _all
+* _parent
+* _fieldnames
+* _routing
+* _index
+* _size
+* _timestamp
+* _ttl
 
 ### Add user metadata to logs
 

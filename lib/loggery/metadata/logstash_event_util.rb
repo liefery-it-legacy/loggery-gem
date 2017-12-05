@@ -8,7 +8,8 @@ module Loggery
     module LogstashEventUtil
       extend self
 
-      MAGIC_FIELDS = [:type].freeze
+      MAGIC_FIELDS = %i{type uid _id _type _source _all _parent _fieldnames _routing 
+                        _index _size _timestamp _ttl }.freeze
 
       def event_metadata(event)
         return unless loglevel_includes_event?(event)
