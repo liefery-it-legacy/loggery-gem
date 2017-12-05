@@ -4,6 +4,9 @@ AllCops:
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
+Metrics/AbcSize:
+  Max: 17
+
 Metrics/LineLength:
     Max: 120
 
