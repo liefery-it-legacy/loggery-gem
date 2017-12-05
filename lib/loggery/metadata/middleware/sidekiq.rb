@@ -13,15 +13,9 @@ module Loggery
           attr_accessor(:error_handler) { ->(e) { Sidekiq::Logging.logger.error(e) } }
         end
 
-        def call(_worker, msg, queue)
-          Loggery::Metadata::Store.with_metadata(jid:         msg["jid"],
-                                                 thread_id:   Thread.current.object_id.to_s(36),
-                                                 worker:      msg["class"],
-                                                 args:        msg["args"].inspect,
-                                                 queue:       queue,
-                                                 retry_count: msg["retry_count"],
-                                                 worker_type: "sidekiq") do
-            log_job_runtime(:sidekiq_job, "#{msg['class']} (#{msg['args']})") do
+        def call(_worker, message, queue)
+          Loggery::Metadata::Store.with_metadata(build_metadata(message, queue)) do
+            log_job_runtime(:sidekiq_job, "#{message['class']} (#{message['args']})") do
               begin
                 yield
               rescue StandardError => e
@@ -32,6 +26,20 @@ module Loggery
               end
             end
           end
+        end
+
+        private
+
+        def build_metadata(message, queue)
+          {
+            jid:         message["jid"],
+            thread_id:   Thread.current.object_id.to_s(36),
+            worker:      message["class"],
+            args:        message["args"].inspect,
+            queue:       queue,
+            retry_count: message["retry_count"],
+            worker_type: "sidekiq"
+          }
         end
       end
     end

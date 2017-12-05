@@ -5,7 +5,7 @@ require "spec_helper"
 describe Loggery::Metadata::LogstashEventUtil do
   subject { described_class }
 
-  describe "._event_metadata" do
+  describe ".set_logstash_event_metadata" do
     let(:event) { LogStash::Event.new }
 
     [:type, "type", :uid, "uid", :_routing, "_routing"].each do |magic_field|
