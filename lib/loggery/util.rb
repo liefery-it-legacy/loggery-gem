@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "active_support/core_ext/time/calculations"
+
 module Loggery
   module Util
     def log_job_runtime(job_type, job_instance_name = nil)

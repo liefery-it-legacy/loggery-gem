@@ -9,6 +9,7 @@ Metrics/LineLength:
 
 Metrics/BlockLength:
   Exclude:
+    - loggery-gem.gemspec
     - 'spec/**/*.rb'
 
 Documentation:

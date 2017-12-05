@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "rails/railtie"
+require "rails/rack/logger"
+
 module Loggery
   module LogstashSetup
     def self.setup(config)
