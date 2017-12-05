@@ -7,7 +7,7 @@ Style/StringLiterals:
 Metrics/LineLength:
     Max: 120
 
-Style/BlockLength:
+Metrics/BlockLength:
   Exclude:
     - 'spec/**/*.rb'
 
@@ -17,5 +17,5 @@ Documentation:
 Style/Lambda:
   EnforcedStyle: literal
 
-Style/MethodLength:
+Metrics/MethodLength:
   Max: 20

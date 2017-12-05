@@ -6,33 +6,31 @@
 module Loggery
   module Metadata
     module LogstashEventUtil
-      extend self
+      MAGIC_FIELDS = %i[type uid _id _type _source _all _parent _fieldnames _routing
+                        _index _size _timestamp _ttl].freeze
 
-      MAGIC_FIELDS = %i{type uid _id _type _source _all _parent _fieldnames _routing 
-                        _index _size _timestamp _ttl }.freeze
-
-      def event_metadata(event)
+      def self.event_metadata(event)
         return unless loglevel_includes_event?(event)
         stored_metadata = Loggery::Metadata::Store.store || {}
         metadata = default_metadata.merge(stored_metadata)
         set_logstash_event_metadata(event, metadata)
       end
 
-      def set_logstash_event_metadata(event, metadata)
+      def self.set_logstash_event_metadata(event, metadata)
         metadata.each { |k, v| event[k] = v }
         fail_if_magic_fields_are_used(event)
       end
 
-      def default_metadata
+      def self.default_metadata
         { pid: Process.pid }
       end
 
-      def loglevel_includes_event?(event)
-        severity = event['severity'].downcase
+      def self.loglevel_includes_event?(event)
+        severity = event["severity"].downcase
         Rails.logger.respond_to?(severity) && Rails.logger.public_send("#{severity}?")
       end
 
-      def fail_if_magic_fields_are_used(event)
+      def self.fail_if_magic_fields_are_used(event)
         MAGIC_FIELDS.each do |magic_field|
           if event[magic_field.to_s].present? || event[magic_field.to_sym].present?
             raise "'#{magic_field}' is a reserved field name of logstash. It should not be set in a custom event"
