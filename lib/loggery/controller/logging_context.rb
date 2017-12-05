@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "active_support/concern"
+
 # Provides a hook in Rails controllers that allows enriching log lines from within a Rails request
 # with data that is available only within a controller action, for instance user information.
 

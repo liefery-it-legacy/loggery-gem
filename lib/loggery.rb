@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+require "lograge"
+require "logstash-event"
+require "logstash-logger"
+require "rails"
+
 require "loggery/gem/version"
 require "loggery/util"
 require "loggery/controller/logging_context"
@@ -10,10 +15,6 @@ require "loggery/metadata/store"
 require "loggery/metadata/middleware/rack"
 require "loggery/metadata/middleware/sidekiq"
 require "loggery/railtie"
-
-require "lograge"
-require "logstash-event"
-require "logstash-logger"
 
 module Loggery
   def self.setup_sidekiq
