@@ -6,10 +6,10 @@
 module Loggery
   module Metadata
     module LogstashEventUtil
-      extend self
+      module_function
 
-      MAGIC_FIELDS = %i{type uid _id _type _source _all _parent _fieldnames _routing 
-                        _index _size _timestamp _ttl }.freeze
+      MAGIC_FIELDS = %i[type uid _id _type _source _all _parent _fieldnames _routing
+                        _index _size _timestamp _ttl ].freeze
 
       def event_metadata(event)
         return unless loglevel_includes_event?(event)
@@ -28,7 +28,7 @@ module Loggery
       end
 
       def loglevel_includes_event?(event)
-        severity = event['severity'].downcase
+        severity = event["severity"].downcase
         Rails.logger.respond_to?(severity) && Rails.logger.public_send("#{severity}?")
       end
 
