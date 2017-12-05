@@ -1,0 +1,21 @@
+AllCops:
+  TargetRubyVersion: 2.3
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Metrics/LineLength:
+    Max: 120
+
+Style/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Documentation:
+  Enabled: false
+
+Style/Lambda:
+  EnforcedStyle: literal
+
+Style/MethodLength:
+  Max: 20
