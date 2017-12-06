@@ -24,11 +24,17 @@ And then execute:
     $ bundle
 
 ### Basic Rails integration
+
+To enable, add 
+
 ```ruby
 config.loggery.enabled = true
 ```
 
-to your `config/application.rb`. In this basic setup, Loggery will save your log output to
+to your `config/application.rb` or to the environment specific `config/staging.rb` and/or
+`config/production.rb`.
+
+In this basic setup, Loggery will save your log output to
 `log/logstash-<rails-env>.log` in JSON format. It will also:
 * use [lograge](https://github.com/roidrage/lograge) to create a single-line log entry for every
   Rails request including the db / view / total duration, controller name, action, http status, etc...
