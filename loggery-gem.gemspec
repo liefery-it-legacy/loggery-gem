@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "logstash-logger", "~> 0.25"
   spec.add_runtime_dependency "railties", ">= 4.2.0"
 
+  spec.add_development_dependency "appraisal"
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "rails", ">= 4.2.0"
