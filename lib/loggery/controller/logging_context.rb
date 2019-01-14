@@ -21,6 +21,7 @@ module Loggery
 
       def loggery_set_metadata
         return unless Loggery::Metadata::Store.store
+
         metadata = loggery_default_metadata.merge loggery_log_context
         Loggery::Metadata::Store.store.merge!(metadata)
       end

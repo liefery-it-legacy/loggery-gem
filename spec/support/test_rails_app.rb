@@ -3,7 +3,7 @@
 # a minimal rails app for specs
 
 class TestRailsApp < Rails::Application
-  config.root = File.expand_path("../..", __FILE__)
+  config.root = File.expand_path("..", __dir__)
 
   Loggery::LoggerySetup.setup(self)
   config.loggery.enabled = true
