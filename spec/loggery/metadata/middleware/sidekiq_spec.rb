@@ -3,7 +3,9 @@
 require "spec_helper"
 
 describe Loggery::Metadata::Middleware::Sidekiq do
-  let(:msg) { { "class" => "MyWorker", "args" => { foo: :bar } } }
+  let(:msg) do
+    { "class" => "MyWorker", "args" => { foo: :bar }, "enqueued_at" => 1_547_465_441.6669881 }
+  end
 
   describe "#call" do
     it "stores data relevant for logging in RequestStore and makes it available within the block" do
@@ -20,10 +22,11 @@ describe Loggery::Metadata::Middleware::Sidekiq do
       end
     end
 
-    it "logs the duration of the sidekiq request" do
+    it "logs the execution delay and duration of the sidekiq request" do
       expect(Rails.logger).to receive(:info)
-        .with(event_type: :sidekiq_job_started,
-              message:    "Job type sidekiq_job - MyWorker ({:foo=>:bar}) started")
+        .with(event_type:      :sidekiq_job_started,
+              message:         "Job type sidekiq_job - MyWorker ({:foo=>:bar}) started",
+              execution_delay: anything)
         .and_call_original
       expect(Rails.logger).to receive(:info)
         .with(event_type: :sidekiq_job_finished,
@@ -42,7 +45,7 @@ describe Loggery::Metadata::Middleware::Sidekiq do
 
       it "logs and re-raises the exception with correct metadata" do
         allow(Rails.logger).to receive(:info)
-          .with(event_type: :sidekiq_job_started, message: anything)
+          .with(event_type: :sidekiq_job_started, message: anything, execution_delay: anything)
           .and_call_original
         allow(Rails.logger).to receive(:info)
           .with(event_type: :sidekiq_job_finished, message: anything, duration: anything)

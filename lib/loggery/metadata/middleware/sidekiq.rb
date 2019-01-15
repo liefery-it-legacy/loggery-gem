@@ -15,7 +15,10 @@ module Loggery
 
         def call(_worker, message, queue)
           Loggery::Metadata::Store.with_metadata(build_metadata(message, queue)) do
-            log_job_runtime(:sidekiq_job, "#{message['class']} (#{message['args']})") do
+            job_instance_name = "#{message['class']} (#{message['args']})"
+            log_job_start(message, job_instance_name)
+
+            log_job_runtime(:sidekiq_job, job_instance_name) do
               begin
                 yield
               rescue StandardError => e
@@ -40,6 +43,17 @@ module Loggery
             retry_count: message["retry_count"],
             worker_type: "sidekiq"
           }
+        end
+
+        def log_job_start(message, job_instance_name)
+          execution_delay =
+            (Time.current - Time.zone.at(message["enqueued_at"]) if message["enqueued_at"])
+
+          Rails.logger.info(
+            event_type:      :sidekiq_job_started,
+            message:         "Job type sidekiq_job - #{job_instance_name} started",
+            execution_delay: execution_delay
+          )
         end
       end
     end
