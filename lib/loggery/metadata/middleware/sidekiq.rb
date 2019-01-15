@@ -47,11 +47,7 @@ module Loggery
 
         def log_job_start(message, job_instance_name)
           execution_delay =
-            if message["enqueued_at"]
-              Time.current - Time.zone.at(message["enqueued_at"])
-            else
-              nil
-            end
+            (Time.current - Time.zone.at(message["enqueued_at"]) if message["enqueued_at"])
 
           Rails.logger.info(
             event_type:      :sidekiq_job_started,

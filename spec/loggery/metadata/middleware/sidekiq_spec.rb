@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe Loggery::Metadata::Middleware::Sidekiq do
   let(:msg) do
-    { "class" => "MyWorker", "args" => { foo: :bar }, "enqueued_at" => 1547465441.6669881 }
+    { "class" => "MyWorker", "args" => { foo: :bar }, "enqueued_at" => 1_547_465_441.6669881 }
   end
 
   describe "#call" do
