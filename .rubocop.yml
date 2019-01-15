@@ -20,3 +20,11 @@ Style/Lambda:
 
 Metrics/MethodLength:
   Max: 20
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - gemfiles/**/*
+
+Layout/AlignHash:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table

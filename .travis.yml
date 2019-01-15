@@ -7,6 +7,10 @@ gemfile:
   - gemfiles/rails5.0.gemfile
   - gemfiles/rails5.1.gemfile
   - gemfiles/rails5.2.gemfile
+before_install:
+  - rvm use @global
+  - gem uninstall bundler -x
+  - gem install -v 1.17.2 bundler --no-rdoc --no-ri
 script:  
 - bundle exec rubocop
 - bundle exec rspec

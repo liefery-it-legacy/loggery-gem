@@ -11,6 +11,7 @@ module Loggery
 
       def self.event_metadata(event)
         return unless loglevel_includes_event?(event)
+
         stored_metadata = Loggery::Metadata::Store.store || {}
         metadata = default_metadata.merge(stored_metadata)
         set_logstash_event_metadata(event, metadata)

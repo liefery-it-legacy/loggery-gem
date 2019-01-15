@@ -12,7 +12,7 @@ module Loggery
 
         def call(env)
           Loggery::Metadata::Store.with_metadata(worker_type: "web",
-                                                 request_id: env["action_dispatch.request_id"]) do
+                                                 request_id:  env["action_dispatch.request_id"]) do
             @app.call(env)
           end
         end

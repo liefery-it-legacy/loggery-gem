@@ -17,8 +17,8 @@ module Loggery
         duration = end_time - start_time
 
         Rails.logger.info event_type: :"#{job_type}_finished",
-                          message: "#{job_name} finished",
-                          duration: duration
+                          message:    "#{job_name} finished",
+                          duration:   duration
       end
     end
   end
