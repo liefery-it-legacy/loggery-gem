@@ -46,7 +46,7 @@ module Loggery
     config.loggery.enabled = true
     config.loggery.log_file = "log/logstash-#{Rails.env}.log"
 
-    initializer :loggery, before: :initialize_logger do |app|
+    initializer :loggery, before: :logstash_logger do |app|
       LoggerySetup.setup(app) if app.config.loggery.enabled
     end
   end
