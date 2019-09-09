@@ -25,7 +25,7 @@ And then execute:
 
 ### Basic Rails integration
 
-To enable, add 
+To enable, add
 
 ```ruby
 config.loggery.enabled = true
@@ -85,8 +85,8 @@ your `ApplicationController`:
 include Loggery::Controller::LoggingContext
 
 def loggery_log_context
-  { 
-    user_id: current_user&.id, 
+  {
+    user_id: current_user&.id,
     user_email: current_user&.email
   }
 end
@@ -98,7 +98,7 @@ would like to add to your log records.
 
 ### Sidekiq
 
-If you're using Sidekiq you can enable structured logging in sidekiq by adding these lines to 
+If you're using Sidekiq you can enable structured logging in sidekiq by adding these lines to
 `config/initializers/sidekiq.rb`:
 
 ```ruby
