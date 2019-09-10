@@ -19,14 +19,12 @@ module Loggery
             log_job_start(message, job_instance_name)
 
             log_job_runtime(:sidekiq_job, job_instance_name) do
-              begin
-                yield
-              rescue StandardError => e
-                # Log exceptions here, otherwise they won't have the metadata available anymore by
-                # the time they reach the Sidekiq default error handler.
-                self.class.error_handler&.call(e)
-                raise e
-              end
+              yield
+            rescue StandardError => e
+              # Log exceptions here, otherwise they won't have the metadata available anymore by
+              # the time they reach the Sidekiq default error handler.
+              self.class.error_handler&.call(e)
+              raise e
             end
           end
         end

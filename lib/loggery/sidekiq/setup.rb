@@ -4,9 +4,9 @@ module Loggery
   module Sidekiq
     module Setup
       def self.setup
-        ::Sidekiq::Logging.logger = Rails.logger
-
         ::Sidekiq.configure_server do |config|
+          config.logger = Rails.logger
+
           config.server_middleware do |chain|
             chain.add Loggery::Metadata::Middleware::Sidekiq
           end
