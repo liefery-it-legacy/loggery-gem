@@ -6,8 +6,8 @@ require "rails/rack/logger"
 module Loggery
   module LogstashSetup
     def self.setup(config)
-      config.logstash.type = :file
-      config.logstash.path = config.loggery.log_file
+      config.logstash.type = config.loggery.log_type
+      config.logstash.path = config.loggery.log_file if config.loggery.log_type == :file
 
       LogStashLogger.configure do |logstash|
         logstash.customize_event do |event|
@@ -44,6 +44,7 @@ module Loggery
 
     # Default options
     config.loggery.enabled = true
+    config.loggery.log_type = :file
     config.loggery.log_file = "log/logstash-#{Rails.env}.log"
 
     initializer :loggery, before: :logstash_logger do |app|
