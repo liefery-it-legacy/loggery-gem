@@ -4,11 +4,11 @@ require "spec_helper"
 
 describe Loggery::Metadata::Middleware::Shoryuken do
   let(:body) do
-    { 
-      "job_class" => "MyWorker",
-      "arguments" => [ "foo", "bar" ],
+    {
+      "job_class"   => "MyWorker",
+      "arguments"   => %w[foo bar],
       "enqueued_at" => "2020-07-13T14:25:01Z",
-      "executions" => 0
+      "executions"  => 0
     }
   end
 

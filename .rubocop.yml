@@ -25,6 +25,6 @@ Style/FrozenStringLiteralComment:
   Exclude:
     - gemfiles/**/*
 
-Layout/AlignHash:
+Layout/HashAlignment:
   EnforcedColonStyle: table
   EnforcedHashRocketStyle: table

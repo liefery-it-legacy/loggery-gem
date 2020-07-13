@@ -13,7 +13,7 @@ module Loggery
           attr_accessor(:error_handler) { ->(e) { Rails.logger.error(e) } }
         end
 
-        def call(worker_instance, queue, sqs_msg, body)
+        def call(_worker_instance, queue, _sqs_msg, body)
           Loggery::Metadata::Store.with_metadata(build_metadata(queue, body)) do
             job_instance_name = "#{body['job_class']} (#{body['arguments']})"
             log_job_start(body, job_instance_name)
@@ -38,8 +38,8 @@ module Loggery
             job_class:   body["job_class"],
             arguments:   body["arguments"].inspect,
             queue:       queue,
-            executions:   body["executions"],
-            worker_type: "shoryuken",
+            executions:  body["executions"],
+            worker_type: "shoryuken"
           }
         end
 
