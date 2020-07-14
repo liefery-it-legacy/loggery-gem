@@ -5,8 +5,6 @@ module Loggery
     module Setup
       def self.setup
         ::Shoryuken.configure_server do |config|
-          config.logger = Rails.logger
-
           config.server_middleware do |chain|
             chain.add Loggery::Metadata::Middleware::Shoryuken
           end
