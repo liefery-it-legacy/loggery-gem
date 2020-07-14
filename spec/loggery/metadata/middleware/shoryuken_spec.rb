@@ -49,12 +49,6 @@ describe Loggery::Metadata::Middleware::Shoryuken do
       end
 
       it "logs and re-raises the exception with correct metadata" do
-        allow(Rails.logger).to receive(:info)
-          .with(event_type: :shoryuken_job_started, message: anything, execution_delay: anything)
-          .and_call_original
-        allow(Rails.logger).to receive(:info)
-          .with(event_type: :shoryuken_job_finished, message: anything, duration: anything)
-          .and_call_original
         expect(Rails.logger).to receive(:error).and_call_original
         expect(Loggery::Metadata::LogstashEventUtil).to receive(:event_metadata) {
           expect(Loggery::Metadata::Store.store.keys).to eq %i[

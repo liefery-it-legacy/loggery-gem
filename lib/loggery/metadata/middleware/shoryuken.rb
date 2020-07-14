@@ -8,8 +8,8 @@ module Loggery
       class Shoryuken
         include Loggery::Util
 
-        # Clients can provide their own error handler
         class << self
+          # Clients can provide their own error handler
           attr_accessor(:error_handler) { ->(e) { Rails.logger.error(e) } }
         end
 
